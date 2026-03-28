@@ -1,0 +1,24 @@
+name: Deploy Budibase App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Budibase CI/CD Script
+        env:
+          BUDIBASE_SOURCE_TENANT: ${{ secrets.BUDIBASE_SOURCE_TENANT }}
+          BUDIBASE_SOURCE_API_KEY: ${{ secrets.BUDIBASE_SOURCE_API_KEY }}
+          BUDIBASE_SOURCE_APP_ID: ${{ secrets.BUDIBASE_SOURCE_APP_ID }}
+          BUDIBASE_DESTINATION_TENANT: ${{ secrets.BUDIBASE_DESTINATION_TENANT }}
+          BUDIBASE_DESTINATION_API_KEY: ${{ secrets.BUDIBASE_DESTINATION_API_KEY }}
+          BUDIBASE_DESTINATION_APP_ID: ${{ secrets.BUDIBASE_DESTINATION_APP_ID }}
+          BUDIBASE_PUBLISH_DESTINATION_APP: ${{ secrets.BUDIBASE_PUBLISH_DESTINATION_APP }}
+        run: bash ./deploy.sh
